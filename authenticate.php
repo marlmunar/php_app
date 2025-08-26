@@ -3,15 +3,18 @@ session_start();
 require_once "db.php";
 
 $username = $_POST['username'];
-$password = md5($_POST['password']); // Use password_hash in production
+$password = md5($_POST['password']); 
 
-$stmt = $conn->prepare("SELECT * FROM users WHERE username=? AND password=?");
-$stmt->bind_param("ss", $username, $password);
+$stmt = $conn->prepare("SELECT * FROM users WHERE username = :username AND password = :password");
+
+$stmt->bindValue(':username', $username, PDO::PARAM_STR);
+$stmt->bindValue(':password', $password, PDO::PARAM_STR);
+
 $stmt->execute();
-$result = $stmt->get_result();
 
-if ($result->num_rows === 1) {
-    $user = $result->fetch_assoc();
+$user = $stmt->fetch();
+
+if ($user) {
     $_SESSION['username'] = $user['username'];
     $_SESSION['role'] = $user['role'];
 
