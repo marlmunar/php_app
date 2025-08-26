@@ -8,7 +8,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
 }
 
 $stmt = $conn->prepare("SELECT username, role FROM users WHERE role = :role");
-$stmt->bindValue(':role', 'user', PDO::PARAM_STR); 
+$stmt->bindValue(':role', 'user', PDO::PARAM_STR);
 $stmt->execute();
 
 $users = $stmt->fetchAll();
