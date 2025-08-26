@@ -41,7 +41,7 @@ if ($result->num_rows === 1) {
     if ($user['role'] === 'admin') {
         header("Location: admin.php");
     } else {
-        header("Location: welcome.php");
+        header("Location: user.php");
     }
 } else {
     echo "Invalid credentials.";
