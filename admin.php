@@ -1,12 +1,13 @@
 <?php
 session_start();
+require_once "db.php";
+
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit;
 }
 
-$conn = new mysqli('localhost', 'root', '', 'php_site');
-$result = $conn->query("SELECT username, role FROM users");
+$result = $conn->query("SELECT username, role FROM users WHERE role = 'user'");
 
 echo "<h1>Welcome Admin " . htmlspecialchars($_SESSION['username']) . "</h1>";
 echo "<h2>User List:</h2><ul>";
