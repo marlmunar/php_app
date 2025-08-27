@@ -1,21 +1,27 @@
 <?php
 require '../../db.php';
 require 'get_data.php';
+require 'json_response.php';
 
 $data = getData();
 $title = $data['title'] ?? '';
-$body  = $data['body'] ?? '';
+$detail  = $data['detail'] ?? '';
 
-$stmt = $conn->prepare("INSERT INTO posts (title, body) VALUES (:title, :body)");
+if (!$title || !$body) {
+    $response = ['message' => 'Title and detail are required'];
+    sendJsonResponse($response, 400);
+}
+
+$stmt = $conn->prepare("INSERT INTO posts (title, detail) VALUES (:title, :detail)");
 $stmt->bindParam(':title', $title);
-$stmt->bindParam(':body', $body);
-
-header('Content-Type: application/json');
+$stmt->bindParam(':body', $detail);
 
 if ($stmt->execute()) {
-    echo json_encode(['message' => 'Post created']);
+    $response = ['message' => 'Task created'];
+    sendJsonResponse($response, 201);
 } else {
-    echo json_encode(['message' => 'Failed']);
+    $response = ['message' => 'Failed to create task'];
+    sendJsonResponse($response, 500);
 }
 
 ?>
