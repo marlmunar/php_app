@@ -1,7 +1,8 @@
 <?php
 require '../../db.php';
+require 'get_data.php';
 
-$data = json_decode(file_get_contents("php://input"), true);
+$data = getData();
 $title = $data['title'] ?? '';
 $body  = $data['body'] ?? '';
 
