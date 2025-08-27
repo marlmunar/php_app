@@ -11,18 +11,17 @@ if ($id === null || !is_numeric($id)) {
     exit;
 }
 
-$stmt = $conn->prepare("SELECT * FROM tasks WHERE public_id = :id");
+$stmt = $conn->prepare("DELETE FROM tasks WHERE public_id = :id");
 $stmt->bindParam(':id', $id);
 
 if ($stmt->execute()) {
-    $task = $stmt->fetch();
-    if ($task) {
-         sendJsonResponse(['message' => 'Task found', 'data' => $task], 200);
+      if ($stmt->rowCount() > 0) {
+        sendJsonResponse(['message' => 'Task deleted'], 200);
     } else {
-        sendJsonResponse(['message' => 'Not found'], 400);
+        sendJsonResponse(['message' => 'Task not found'], 404);
     }
 } else {
-    $response = ['message' => 'Failed to fetch task'];
+    $response = ['message' => 'Failed to delete task'];
     sendJsonResponse($response, 500);
 }
 
