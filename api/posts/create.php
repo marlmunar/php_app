@@ -12,7 +12,7 @@ if (!$title || !$body) {
     sendJsonResponse($response, 400);
 }
 
-$stmt = $conn->prepare("INSERT INTO posts (title, detail) VALUES (:title, :detail)");
+$stmt = $conn->prepare("INSERT INTO tasks (title, detail) VALUES (:title, :detail)");
 $stmt->bindParam(':title', $title);
 $stmt->bindParam(':body', $detail);
 
