@@ -7,14 +7,14 @@ $data = getData();
 $title = $data['title'] ?? '';
 $detail  = $data['detail'] ?? '';
 
-if (!$title || !$body) {
+if (!$title || !$detail) {
     $response = ['message' => 'Title and detail are required'];
     sendJsonResponse($response, 400);
 }
 
 $stmt = $conn->prepare("INSERT INTO tasks (title, detail) VALUES (:title, :detail)");
 $stmt->bindParam(':title', $title);
-$stmt->bindParam(':body', $detail);
+$stmt->bindParam(':detail', $detail);
 
 if ($stmt->execute()) {
     $response = ['message' => 'Task created'];

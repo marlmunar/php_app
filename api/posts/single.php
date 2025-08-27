@@ -11,7 +11,7 @@ if ($id === null || !is_numeric($id)) {
     exit;
 }
 
-$stmt = $conn->prepare("SELECT * FROM tasks WHERE id = :id");
+$stmt = $conn->prepare("SELECT * FROM tasks WHERE public_id = :id");
 $stmt->bindParam(':id', $id);
 
 if ($stmt->execute()) {
